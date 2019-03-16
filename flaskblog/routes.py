@@ -4,7 +4,7 @@ from PIL import Image
 from flask import render_template, url_for, flash, redirect, request
 from flaskblog import app, db, bcrypt
 from flaskblog.forms import RegistrationForm, LoginForm, UpdateAccountForm
-from flaskblog.models import User, Post
+from flaskblog.models import User, Know, Learn
 from flask_login import login_user, current_user, logout_user, login_required
 
 
@@ -106,9 +106,14 @@ def account():
     return render_template('account.html', title='Account',
                            image_file=image_file, form=form)
 
-@app.route("/language", methods=['GET', 'POST'])
+@app.route("/language/<user_id>", methods=['GET', 'POST'])
 @login_required
-def language():
- 
+def language(user_id):
+    if request.method == "POST":
+        language = request.form["language"]
+        know = Know(language=language, user_id=user_id)
+        db.session.add(know)
+        db.session.commit()
+
     return render_template('language.html', title='language'
                           )

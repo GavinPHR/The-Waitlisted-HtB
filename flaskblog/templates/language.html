@@ -1,14 +1,14 @@
 {% extends "layout.html" %}
 {% block content %}
 
-<h2>Autocomplete</h2>
+<h2>Choose the language you know</h2>
 
 <p>Start typing:</p>
 
 <!--Make sure the form has the autocomplete function switched off:-->
-<form autocomplete="off" action="/action_page.php">
+<form autocomplete="off" method="POST" action="">
   <div class="autocomplete" style="width:300px;">
-    <input id="myInput" type="text" name="myCountry" placeholder="Country">
+    <input id="myInput" type="text" name="language" placeholder="Language">
   </div>
   <input type="submit">
 </form>
@@ -22,5 +22,28 @@ var countries = ["Afrikaans","Akan","Albanian","Amharic","Arabic","Armenian","AS
 /*initiate the autocomplete function on the "myInput" element, and pass along the countries array as possible autocomplete values:*/
 autocomplete(document.getElementById("myInput"), countries);
 </script>
+
+
+
+<table class="table table-striped"  style="width:100%">
+		<thead>
+    		<tr>
+    			<th><h4><b>Language you know</b></h4></th>
+    			<th><h4><b></b></h4></th>
+    		</tr>
+		</thead>
+		<tbody>
+		{% for hour in time_slots.keys()%}
+		{% for minute in time_slots[hour] %}
+		<tr>
+			<td><h4>{{ hour }}:{{ minute }}</h4></td>
+			<td>
+				<button type="button" class="btn btn-danger btn-md m-1" data-toggle="modal" data-target="#deleteModal{{time.filter_by(hour=hour, minute=minute).first().id}}">Delete</button>
+			</td>
+		</tr>
+		{% endfor %}
+		{% endfor %}
+		</tbody>
+	</table>
 
 {% endblock content %}
