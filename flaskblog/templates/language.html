@@ -1,12 +1,14 @@
 {% extends "layout.html" %}
 {% block content %}
 
-<h1>Language selection</h1>
+<h2>Choose the language you know</h2>
+
+<p>Start typing:</p>
 
 <!--Make sure the form has the autocomplete function switched off:-->
-<form autocomplete="off" action="/action_page.php">
+<form autocomplete="off" method="POST" action="">
   <div class="autocomplete" style="width:300px;">
-    <input id="myInput" type="text" name="myCountry" placeholder="Country">
+    <input id="myInput" type="text" name="language" placeholder="Language">
   </div>
   <input type="submit">
 </form>
@@ -15,10 +17,33 @@
 <script src="{{ url_for('static', filename='searchableTextField.js')}}"></script>
 <script>
 
-var countries = ["Afghanistan","Albania","Algeria","Andorra","Angola","Anguilla","Antigua & Barbuda","Argentina","Armenia","Aruba","Australia","Austria","Azerbaijan","Bahamas","Bahrain","Bangladesh","Barbados","Belarus","Belgium","Belize","Benin","Bermuda","Bhutan","Bolivia","Bosnia & Herzegovina","Botswana","Brazil","British Virgin Islands","Brunei","Bulgaria","Burkina Faso","Burundi","Cambodia","Cameroon","Canada","Cape Verde","Cayman Islands","Central Arfrican Republic","Chad","Chile","China","Colombia","Congo","Cook Islands","Costa Rica","Cote D Ivoire","Croatia","Cuba","Curacao","Cyprus","Czech Republic","Denmark","Djibouti","Dominica","Dominican Republic","Ecuador","Egypt","El Salvador","Equatorial Guinea","Eritrea","Estonia","Ethiopia","Falkland Islands","Faroe Islands","Fiji","Finland","France","French Polynesia","French West Indies","Gabon","Gambia","Georgia","Germany","Ghana","Gibraltar","Greece","Greenland","Grenada","Guam","Guatemala","Guernsey","Guinea","Guinea Bissau","Guyana","Haiti","Honduras","Hong Kong","Hungary","Iceland","India","Indonesia","Iran","Iraq","Ireland","Isle of Man","Israel","Italy","Jamaica","Japan","Jersey","Jordan","Kazakhstan","Kenya","Kiribati","Kosovo","Kuwait","Kyrgyzstan","Laos","Latvia","Lebanon","Lesotho","Liberia","Libya","Liechtenstein","Lithuania","Luxembourg","Macau","Macedonia","Madagascar","Malawi","Malaysia","Maldives","Mali","Malta","Marshall Islands","Mauritania","Mauritius","Mexico","Micronesia","Moldova","Monaco","Mongolia","Montenegro","Montserrat","Morocco","Mozambique","Myanmar","Namibia","Nauro","Nepal","Netherlands","Netherlands Antilles","New Caledonia","New Zealand","Nicaragua","Niger","Nigeria","North Korea","Norway","Oman","Pakistan","Palau","Palestine","Panama","Papua New Guinea","Paraguay","Peru","Philippines","Poland","Portugal","Puerto Rico","Qatar","Reunion","Romania","Russia","Rwanda","Saint Pierre & Miquelon","Samoa","San Marino","Sao Tome and Principe","Saudi Arabia","Senegal","Serbia","Seychelles","Sierra Leone","Singapore","Slovakia","Slovenia","Solomon Islands","Somalia","South Africa","South Korea","South Sudan","Spain","Sri Lanka","St Kitts & Nevis","St Lucia","St Vincent","Sudan","Suriname","Swaziland","Sweden","Switzerland","Syria","Taiwan","Tajikistan","Tanzania","Thailand","Timor L'Este","Togo","Tonga","Trinidad & Tobago","Tunisia","Turkey","Turkmenistan","Turks & Caicos","Tuvalu","Uganda","Ukraine","United Arab Emirates","United Kingdom","United States of America","Uruguay","Uzbekistan","Vanuatu","Vatican City","Venezuela","Vietnam","Virgin Islands (US)","Yemen","Zambia","Zimbabwe"];
+var countries = ["Afrikaans","Akan","Albanian","Amharic","Arabic","Armenian","ASL","Assamese","Assyrian","Azerbaijani","Bahdini","Bambara","Bashkir","Basque","Belarusian","Bengali","Bosnian","Bravanese","Bulgarian","Burmese","Cambodian","Cantonese","Catalan","Cebuano","Chaldean","Chamorro","Chaozhou","Chavacano","Chin","Chuukese","Cree","Croatian","Czech","Dakota","Danish","Dari","Dinka","Dioula","Dutch","Dzongkha","English","Estonian","Ewe","Fante","Faroese","Farsi","Fijian Hindi","Finnish","Flemish","French","French Canadian","Frisian","Fujianese","Fukienese","Fula","Fulani","Fuzhou","Ga","Gaelic","Galician","Ganda","Georgian","German","Gorani","Greek","Gujarati","Haitian Creole","Hakka","Hassaniyya","Hausa","Hebrew","Hiligaynon","Hindi","Hmong","Hungarian","Ibanag","Icelandic","Igbo","Ilocano","Ilonggo","Indian","Indonesian","Inuktitut","Irish","Italian","Jakartanese","Japanese","Javanese","Kanjobal","Kannada","Karen","Kashmiri","Kazakh","Khalkha","Khmer","Kikuyu","Kinyarwanda","Kirundi","Korean","Kosovan","Kotokoli","Krio","Kurdish","Kurmanji","Kyrgyz","Lakota","Laotian","Latin","Latvian","Lingala","Lithuanian","Luganda","Luo","Lusoga","Luxembourgeois","Maay","Macedonian","Malagasy","Malay","Malayalam","Maldivian","Maltese","Mandarin","Mandingo","Mandinka","Maori","Marathi","Marshallese","Mien","Mirpuri","Mixteco","Moldovan","Mongolian","Navajo","Neapolitan","Nepali","Norwegian","Nuer","Nyanja","Ojibaway","Oriya","Oromo","Ossetian","Pahari","Pampangan","Pashto","Patois","Pidgin English","Polish","Portuguese","Pothwari","Pulaar","Punjabi","Putian","Quanxi","Quechua","Romani","Romanian","Romansch","Rundi","Russian","Samoan","Sango","Sanskrit","Serbian","Shanghainese","Shona","Sichuan","Sicilian","Sindhi","Sinhala","Sinhalese","Siswati/Swazi","Slovak","Slovene","Slovenian","Somali","Soninke","Sorani","Sotho","Spanish","Sundanese","Susu","Swahili","Swedish","Sylhetti","Tagalog","Taiwanese","Tajik","Tamil","Telugu","Thai","Tibetan","Tigrinya","Tongan","Tshiluba","Tsonga","Tswana","Turkish","Turkmen","Uighur","Ukrainian","Urdu","Uzbek","Venda","Vietnamese","Visayan","Welsh","Wolof","Xhosa","Yao","Yiddish","Yoruba","Yupik","Zulu"];
 
 /*initiate the autocomplete function on the "myInput" element, and pass along the countries array as possible autocomplete values:*/
 autocomplete(document.getElementById("myInput"), countries);
 </script>
+
+
+
+<table class="table table-striped"  style="width:100%">
+		<thead>
+    		<tr>
+    			<th><h4><b>Language you know</b></h4></th>
+    			<th><h4><b></b></h4></th>
+    		</tr>
+		</thead>
+		<tbody>
+		{% for hour in time_slots.keys()%}
+		{% for minute in time_slots[hour] %}
+		<tr>
+			<td><h4>{{ hour }}:{{ minute }}</h4></td>
+			<td>
+				<button type="button" class="btn btn-danger btn-md m-1" data-toggle="modal" data-target="#deleteModal{{time.filter_by(hour=hour, minute=minute).first().id}}">Delete</button>
+			</td>
+		</tr>
+		{% endfor %}
+		{% endfor %}
+		</tbody>
+	</table>
 
 {% endblock content %}
