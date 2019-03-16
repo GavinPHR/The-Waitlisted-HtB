@@ -23,11 +23,16 @@ posts = [
     }
 ]
 
-
 @app.route("/")
 @app.route("/home")
 def home():
-    return render_template('home.html', posts=posts)
+    user = {
+        "status": "waiting",
+        "language_learn": "Esperanto",
+        "language_know": ["Norwegian", "English"]
+    };
+
+    return render_template('home.html', status=user["status"], user=user)
 
 
 @app.route("/about")
@@ -109,6 +114,6 @@ def account():
 @app.route("/language", methods=['GET', 'POST'])
 @login_required
 def language():
- 
+
     return render_template('language.html', title='language'
                           )

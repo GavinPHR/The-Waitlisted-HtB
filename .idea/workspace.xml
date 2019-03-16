@@ -6,7 +6,11 @@
     </shared>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="28197395-af82-476a-a26f-620ec17ce34e" name="Default Changelist" comment="" />
+    <list default="true" id="28197395-af82-476a-a26f-620ec17ce34e" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/flaskblog/routes.py" beforeDir="false" afterPath="$PROJECT_DIR$/flaskblog/routes.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/flaskblog/templates/home.html" beforeDir="false" afterPath="$PROJECT_DIR$/flaskblog/templates/home.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/flaskblog/templates/language.html" beforeDir="false" afterPath="$PROJECT_DIR$/flaskblog/templates/language.html" afterDir="false" />
+    </list>
     <ignored path="$PROJECT_DIR$/build/classes/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
