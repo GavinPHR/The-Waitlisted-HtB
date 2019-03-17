@@ -110,10 +110,63 @@ def account():
 @login_required
 def language(user_id):
     if request.method == "POST":
-        language = request.form["language"]
-        know = Know(language=language, user_id=user_id)
-        db.session.add(know)
-        db.session.commit()
+        try:
+            language = request.form["language"]
+            if language is not None:
+                languages = Know.query.filter_by(user_id=user_id).all()
+                check = 0
+                for language_know in languages:
+                    if language_know.language == language:
+                        check = 1
+                if check == 0:
+                    know = Know(language=language, user_id=user_id)
+                    db.session.add(know)
+                    db.session.commit()
+                else:
+                    flash('The language has already been chosen', 'danger')
+        except:
+            pass
+        try:
+            language_learn = request.form["language_learn"]
+            if language_learn is not None:
+                languages = Learn.query.filter_by(user_id=user_id).all()
+                check=0
+                for language in languages:
+                    if language.language == language_learn:
+                        check=1
+                languages = Know.query.filter_by(user_id=user_id).all()
+                for language in languages:
+                    if language.language == language_learn:
+                        check=2
+                if check ==0:
+                    learn = Learn(language=language_learn, user_id=user_id)
+                    db.session.add(learn)
+                    db.session.commit() 
+                elif check == 1:
+                    flash('The language has already been chosen', 'danger') 
+                elif check == 2:
+                    flash('You know that language', 'danger')  
+        except:
+            pass
+        return redirect(url_for('language', user_id=user_id))
+    languages = Know.query.filter_by(user_id=user_id).all()
+    languages_learn = Learn.query.filter_by(user_id=user_id).all()
 
-    return render_template('language.html', title='language'
+    return render_template('language.html', title='language', languages=languages, languages_learn=languages_learn
                           )
+
+
+@app.route("/delete_language/<mode>/<user_id>/<language_id>", methods=['GET', 'POST'])
+@login_required
+def delete_language(language_id,mode,user_id):
+    if mode == "learn":
+        learn = Learn.query.get_or_404(language_id)
+        db.session.delete(learn)
+        db.session.commit()
+        flash('Delete successfully', 'success')
+    if mode == "know":
+        know = Know.query.get_or_404(language_id)
+        db.session.delete(know)
+        db.session.commit()
+        flash('Delete successfully', 'success')
+    return redirect(url_for('language', user_id=user_id))
