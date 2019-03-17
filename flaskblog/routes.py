@@ -146,19 +146,23 @@ def account():
     return render_template('account.html', title='Account',
                            image_file=image_file, form=form)
 
+allowed_languages = ["Afrikaans","Akan","Albanian","Amharic","Arabic","Armenian","ASL","Assamese","Assyrian","Azerbaijani","Bahdini","Bambara","Bashkir","Basque","Belarusian","Bengali","Bosnian","Bravanese","Bulgarian","Burmese","Cambodian","Cantonese","Catalan","Cebuano","Chaldean","Chamorro","Chaozhou","Chavacano","Chin","Chuukese","Cree","Croatian","Czech","Dakota","Danish","Dari","Dinka","Dioula","Dutch","Dzongkha","English","Estonian","Ewe","Fante","Faroese","Farsi","Fijian  Hindi","Finnish","Flemish","French","French Canadian","Frisian","Fujianese","Fukienese","Fula","Fulani","Fuzhou","Ga","Gaelic","Galician","Ganda","Georgian","German","Gorani","Greek","Gujarati","Haitian Creole","Hakka","Hassaniyya","Hausa","Hebrew","Hiligaynon","Hindi","Hmong","Hungarian","Ibanag","Icelandic","Igbo","Ilocano","Ilonggo","Indian","Indonesian","Inuktitut","Irish","Italian","Jakartanese","Japanese","Javanese","Kanjobal","Kannada","Karen","Kashmiri","Kazakh","Khalkha","Khmer","Kikuyu","Kinyarwanda","Kirundi","Korean","Kosovan","Kotokoli","Krio","Kurdish","Kurmanji","Kyrgyz","Lakota","Laotian","Latin","Latvian","Lingala","Lithuanian","Luganda","Luo","Lusoga","Luxembourgeois","Maay","Macedonian","Malagasy","Malay","Malayalam","Maldivian","Maltese","Mandarin","Mandingo","Mandinka","Maori","Marathi","Marshallese","Mien","Mirpuri","Mixteco","Moldovan","Mongolian","Navajo","Neapolitan","Nepali","Norwegian","Nuer","Nyanja","Ojibaway","Oriya","Oromo","Ossetian","Pahari","Pampangan","Pashto","Patois","Pidgin English","Polish","Portuguese","Pothwari","Pulaar","Punjabi","Putian","Quanxi","Quechua","Romani","Romanian","Romansch","Rundi","Russian","Samoan","Sango","Sanskrit","Serbian","Shanghainese","Shona","Sichuan","Sicilian","Sindhi","Sinhala","Sinhalese","Siswati/Swazi","Slovak","Slovene","Slovenian","Somali","Soninke","Sorani","Sotho","Spanish","Sundanese","Susu","Swahili","Swedish","Sylhetti","Tagalog","Taiwanese","Tajik","Tamil","Telugu","Thai","Tibetan","Tigrinya","Tongan","Tshiluba","Tsonga","Tswana","Turkish","Turkmen","Uighur","Ukrainian","Urdu","Uzbek","Venda","Vietnamese","Visayan","Welsh","Wolof","Xhosa","Yao","Yiddish","Yoruba","Yupik","Zulu"]
+
 @app.route("/profile/<user_id>", methods=['GET', 'POST'])
 @login_required
 def profile(user_id):
     if request.method == "POST":
         try:
             language = request.form["language"]
+            print("b")
             if language is not None:
                 languages = Know.query.filter_by(user_id=user_id).all()
                 check = 0
                 for language_know in languages:
                     if language_know.language == language:
                         check = 1
-                if check == 0:
+                if check == 0 and language in allowed_languages:
+                    print('a')
                     know = Know(language=language, user_id=user_id)
                     db.session.add(know)
                     db.session.commit()
@@ -168,6 +172,7 @@ def profile(user_id):
             pass
         try:
             language_learn = request.form["language_learn"]
+            print("c")
             if language_learn is not None:
                 languages = Learn.query.filter_by(user_id=user_id).all()
                 check=0
@@ -178,7 +183,7 @@ def profile(user_id):
                 for language in languages:
                     if language.language == language_learn:
                         check=2
-                if check ==0:
+                if check ==0 and (language_learn in allowed_languages):
                     learn = Learn(language=language_learn, user_id=user_id)
                     db.session.add(learn)
                     db.session.commit()
