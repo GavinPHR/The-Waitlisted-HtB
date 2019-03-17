@@ -182,9 +182,9 @@ def account():
     return render_template('account.html', title='Account',
                            image_file=image_file, form=form)
 
-@app.route("/language/<user_id>", methods=['GET', 'POST'])
+@app.route("/profile/<user_id>", methods=['GET', 'POST'])
 @login_required
-def language(user_id):
+def profile(user_id):
     if request.method == "POST":
         try:
             language = request.form["language"]
@@ -224,11 +224,11 @@ def language(user_id):
                     flash('You know that language', 'danger')
         except:
             pass
-        return redirect(url_for('language', user_id=user_id))
+        return redirect(url_for('profile', user_id=user_id))
     languages = Know.query.filter_by(user_id=user_id).all()
     languages_learn = Learn.query.filter_by(user_id=user_id).all()
 
-    return render_template('language.html', title='language', languages=languages, languages_learn=languages_learn
+    return render_template('profile.html', title='Profile', languages=languages, languages_learn=languages_learn
                           )
 
 
@@ -245,4 +245,4 @@ def delete_language(language_id,mode,user_id):
         db.session.delete(know)
         db.session.commit()
         flash('Delete successfully', 'success')
-    return redirect(url_for('language', user_id=user_id))
+    return redirect(url_for('profile', user_id=user_id))
