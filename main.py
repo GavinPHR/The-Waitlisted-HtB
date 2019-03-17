@@ -34,11 +34,11 @@ def match(data):
         for key, values in matches[n].items():
             match_user = key
             for value in values:
+                if len(Matches.query.filter_by(user1_id=user_id,user2_id=match_user, language=value).all()) > 0:
+                    continue;
                 match = Matches(user1_id=user_id,user2_id=match_user, language=value)
                 db.session.add(match)
-                db.session.commit() 
-                        
-
+                db.session.commit()
 
 class trigger_matching(Thread):
     def run(self):
@@ -55,8 +55,8 @@ class trigger_matching(Thread):
                     } for user in User.query.filter_by(match='1').all()]
 
                 match(data)
-   
- 
+
+
 t2 = trigger_matching()
 t2.start()
 
