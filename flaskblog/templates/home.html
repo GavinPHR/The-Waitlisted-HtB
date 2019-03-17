@@ -1,28 +1,30 @@
 {% extends "layout.html" %}
 {% block content %}
-  {% if status == "waiting" %}
-  <article class="media content-section">
-    <div class="media-body">
-      <h2>Status</h2>
-      <p class="article-content">
-        Your application is being mached with other users
-      </p>
-      <h5>Language</h5>
-      status
-    </div>
-  </article>
-  {% elif status == "mached" %}
-  <article class="media content-section">
-    <div class="media-body">
-      <h2><a class="article-title" href="#"></a></h2>
-      <p class="article-content">
-        Your application is now mached.
 
-      </p>
+{% if matches %}
+  {% for match in matches %}
+  <article class="media content-section">
+    <div class="media-body">
+      <h2>Match for {{match.language}}</h2>
+      <h5>{{match.name}}</h5>
+      <p class="article-content"> </p>
       <button>Send message</button>
       <button>Decline</button>
     </div>
   </article>
-  {% endif %}
+  {% endfor %}
+{% else %}
+<article class="media content-section">
+  <div class="media-body">
+    <h2>Status</h2>
+    <p class="article-content">
+      Your application is being mached with other users
+    </p>
+    <h5>Language</h5>
+    {{ user.language_learn }}
+  </div>
+</article>
+{% endif %}
+
 
 {% endblock content %}

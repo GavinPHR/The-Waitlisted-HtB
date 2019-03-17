@@ -7,37 +7,41 @@ from flaskblog.forms import RegistrationForm, LoginForm, UpdateAccountForm
 from flaskblog.models import User, Know, Learn
 from flask_login import login_user, current_user, logout_user, login_required
 
-
-posts = [
-    {
-        'author': 'Corey Schafer',
-        'title': 'Blog Post 1',
-        'content': 'First post content',
-        'date_posted': 'April 20, 2018'
-    },
-    {
-        'author': 'Jane Doe',
-        'title': 'Blog Post 2',
-        'content': 'Second post content',
-        'date_posted': 'April 21, 2018'
-    }
-]
+import users
 
 @app.route("/")
 @app.route("/home")
 def home():
-    user = {
-        "status": "waiting",
-        "language_learn": "Esperanto",
-        "language_know": ["Norwegian", "English"]
-    };
+    matches = [
+    {
+        'language': 'English',
+        'name': 'Sophie'
+    },
+    {
+        'language': 'Spanish',
+        'name': 'Aria'
+    }
+    ]
 
-    return render_template('home.html', status=user["status"], user=user)
+    user = {
+        'language_learn': "English",
+        'language_know': ['Norwegian', 'Esperanto']
+    }
+
+    #users.getUsers()
+    if len(matches) == 0:
+        matches = None
+    return render_template('home.html', user=user, matches=matches)
 
 
 @app.route("/about")
 def about():
     return render_template('about.html', title='About')
+
+
+@app.route("/chatroom")
+def chatroom():
+    return render_template('chat.html', title='About', nosidebar=True)
 
 
 @app.route("/register", methods=['GET', 'POST'])
@@ -120,5 +124,4 @@ def language(user_id):
         db.session.add(know)
         db.session.commit()
 
-    return render_template('language.html', title='language'
-                          )
+    return render_template('language.html', title='language')
