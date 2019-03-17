@@ -1,19 +1,22 @@
 
-from flaskblog.models import User, Know, Learn
+from flaskblog.models import User
 
-User = {
-    'language_know'
-    'language_learn'
-    #'language_practice'
-}
+import _thread
+import time
 
-def getUsers():
-    print(Know.query.all())
-    print(Learn.query.all())
-    users = {}
+def matchUsers():
+    return [ {
+        'id': user.id,
+        'language_know': [ll.language for ll in user.language_know],
+        'language_learn': [ll.language for ll in user.language_learn]
+    } for user in User.query.filter_by(match='1').all()]
 
-    for k in Know.query.all():
-        if not users.has_key(k):
-            users[k] = [];
 
-        #users[k] =
+def triggerMatchingThread():
+    pass
+
+def triggerMatching():
+    try:
+        _thread.start_new_thread(triggerMatchingThread)
+    except:
+        print("Error: unable to start thread")

@@ -6,14 +6,14 @@
   <article class="media content-section">
     <div class="media-body">
       <h2>Match for {{ match.language }}</h2>
-      <h5>{{match.name}}</h5>
+      <h5>{{ match.user.username }}</h5>
       <p class="article-content"> </p>
       <button>Send message</button>
       <button>Decline</button>
     </div>
   </article>
   {% endfor %}
-{% else %}
+{% elif user.language_learn|length > 0 %}
 <article class="media content-section">
   <div class="media-body">
     <h2>Status</h2>
@@ -21,8 +21,19 @@
       Your application is being mached with other users
     </p>
     <h5>Language</h5>
-    {{ user.language_learn }}
+    {% for language in user.language_learn %}
+      {{ language }},
+    {% endfor %}
   </div>
+</article>
+{% else %}
+<article class="media content-section">
+<div class="media-body">
+  <h2>Spesify a language to learn</h2>
+  <p class="article-content">
+    Go to the Profile page and choose a language you would like to learn.
+  </p>
+</div>
 </article>
 {% endif %}
 

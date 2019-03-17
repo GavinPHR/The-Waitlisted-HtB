@@ -4,28 +4,41 @@ from PIL import Image
 from flask import render_template, url_for, flash, redirect, request
 from flaskblog import app, db, bcrypt
 from flaskblog.forms import RegistrationForm, LoginForm, UpdateAccountForm
-from flaskblog.models import User, Know, Learn, ChatThread, ChatThreadContent
+from flaskblog.models import User, Know, Learn, ChatThread, ChatThreadContent, Matches
 from flask_login import login_user, current_user, logout_user, login_required
 
-
+import users
 
 @app.route("/")
+def root():
+    if current_user.is_authenticated:
+        return redirect(url_for('home'))
+    return render_template('root.html')
+
 @app.route("/home")
+@login_required
 def home():
-    matches = [
+    '''matches = [
     {
         'language': 'English',
-        'name': 'Sophie'
+        'user': {
+            'username': 'Sophie'
+        }
     },
     {
         'language': 'Spanish',
-        'name': 'Aria'
-    }
-    ]
+        'user': {
+            'username': 'Aria'
+        }
+    } ]'''
+
+    matches = [ {
+        'language': match.language,
+        'user': User.query.get(match.user2_id)
+    } for match in Matches.query.filter_by(user1_id=current_user.id).all()]
 
     user = {
-        'language_learn': "English",
-        'language_know': ['Norwegian', 'Esperanto']
+        'language_learn': [ll.language for ll in current_user.language_learn]
     }
 
     #users.getUsers()
@@ -229,7 +242,7 @@ def profile(user_id):
     languages_learn = Learn.query.filter_by(user_id=user_id).all()
     user = User.query
 
-    return render_template('profile.html', title='Profile', languages=languages, languages_learn=languages_learn)
+    return render_template('profile.html', title='Profile', languages=languages, languages_learn=languages_learn, user=user, user_id=user_id)
 
 
 @app.route("/delete_language/<mode>/<user_id>/<language_id>", methods=['GET', 'POST'])
@@ -255,7 +268,8 @@ def start_match(user_id):
     user = User.query.get_or_404(user_id)
     user.match = '1'
     db.session.commit()
-    return redirect(url_for('language', user_id=user_id))
+    triggerMatching()
+    return redirect(url_for('profile', user_id=user_id))
 
 @app.route("/stop_match/<user_id>", methods=['GET', 'POST'])
 @login_required
@@ -263,4 +277,4 @@ def stop_match(user_id):
     user = User.query.get_or_404(user_id)
     user.match = '0'
     db.session.commit()
-    return redirect(url_for('language', user_id=user_id))
+    return redirect(url_for('profile', user_id=user_id))
