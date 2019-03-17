@@ -1,6 +1,14 @@
 {% extends "layout.html" %}
 {% block content %}
 
+{% if user.get_or_404(user_id).match == "0" %}
+<a href="{{ url_for('start_match', user_id=user_id) }}" class="btn btn-primary btn-lg btn-block active" role="button" aria-pressed="true">Start Matching</a>
+{% else %}
+<a href="{{url_for('start_match', user_id=user_id)}}" class="btn btn-primary btn-lg btn-block disabled" role="button" aria-pressed="true">Waiting matching</a>
+<a href="{{url_for('stop_match', user_id=user_id)}}" class="btn btn-secondary btn-lg btn-block active" role="button" aria-pressed="true">Stop matching</a>
+
+{% endif %}
+
 <h2>Choose the language you know</h2>
 
 <p>Start typing:</p>

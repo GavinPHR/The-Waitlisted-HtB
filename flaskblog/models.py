@@ -17,6 +17,7 @@ class User(db.Model, UserMixin):
     password = db.Column(db.String(60), nullable=False)
     language_know = db.relationship('Know', backref='author', lazy=True)
     language_learn = db.relationship('Learn', backref='author', lazy=True)
+    match = db.Column(db.String(1), nullable=False, default='0')
 
 
     def __repr__(self):
