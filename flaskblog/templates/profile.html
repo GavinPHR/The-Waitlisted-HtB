@@ -14,26 +14,24 @@
 </form>
 
 <table class="table table-striped"  style="width:100%">
-		<thead>
-    		<tr>
-    			<th><h4><b>Language you know</b></h4></th>
-    			<th><h4><b></b></h4></th>
-    		</tr>
-		</thead>
-		<tbody>
-		{% for language in languages%}
+	<thead>
+  		<tr>
+  			<th><h4><b>Language you know</b></h4></th>
+  			<th><h6><b></b></h6></th>
+  		</tr>
+	</thead>
+	<tbody>
+	{% for language in languages%}
+	<tr>
+		<td><h6>{{ language.language }}</h6></td>
+		<td>
+			<button type="button" class="btn btn-danger btn-md m-1" data-toggle="modal" data-target="#deleteModalknow{{ language.id }}">Delete</button>
+		</td>
+	</tr>
+	{% endfor %}
 
-		<tr>
-			<td><h4>{{ language.language }}</h4></td>
-			<td>
-				<button type="button" class="btn btn-danger btn-md m-1" data-toggle="modal" data-target="#deleteModalknow{{ language.id }}">Delete</button>
-			</td>
-		</tr>
-		{% endfor %}
-
-		</tbody>
-	</table>
-
+	</tbody>
+</table>
 
 <h2>Choose the language you want to know</h2>
 
@@ -89,36 +87,35 @@
 	  </div>
 	  	{% endfor %}
 
-	  	{% for language in languages%}
-	   <div class="modal fade" id="deleteModalknow{{language.id}}" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
-	    <div class="modal-dialog" role="document">
-	      <div class="modal-content">
-	        <div class="modal-header">
-	          <h5 class="modal-title" id="deleteModalLabel">Delete language: {{ language.language }} you know ?</h5>
-	          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-	            <span aria-hidden="true">&times;</span>
-	          </button>
-	        </div>
-	        <div class="modal-footer">
-	          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-	          <form action="{{ url_for('delete_language', language_id=language.id, mode='know',user_id=language.user_id) }}" method="POST">
-	            <input class="btn btn-danger" type="submit" value="Delete">
-	          </form>
-	        </div>
-	      </div>
-	    </div>
-	  </div>
-	  	{% endfor %}
+{% for language in languages%}
+<div class="modal fade" id="deleteModalknow{{language.id}}" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+<div class="modal-dialog" role="document">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="deleteModalLabel">Delete language: {{ language.language }} you know ?</h5>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      <form action="{{ url_for('delete_language', language_id=language.id, mode='know',user_id=language.user_id) }}" method="POST">
+        <input class="btn btn-danger" type="submit" value="Delete">
+      </form>
+    </div>
+  </div>
+</div>
+</div>
+{% endfor %}
 
 
 <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='searchableTextField.css') }}">
 <script src="{{ url_for('static', filename='searchableTextField.js')}}"></script>
 <script>
+const allowed_languages = ["Afrikaans","Akan","Albanian","Amharic","Arabic","Armenian","ASL","Assamese","Assyrian","Azerbaijani","Bahdini","Bambara","Bashkir","Basque","Belarusian","Bengali","Bosnian","Bravanese","Bulgarian","Burmese","Cambodian","Cantonese","Catalan","Cebuano","Chaldean","Chamorro","Chaozhou","Chavacano","Chin","Chuukese","Cree","Croatian","Czech","Dakota","Danish","Dari","Dinka","Dioula","Dutch","Dzongkha","English","Estonian","Ewe","Fante","Faroese","Farsi","Fijian  Hindi","Finnish","Flemish","French","French Canadian","Frisian","Fujianese","Fukienese","Fula","Fulani","Fuzhou","Ga","Gaelic","Galician","Ganda","Georgian","German","Gorani","Greek","Gujarati","Haitian Creole","Hakka","Hassaniyya","Hausa","Hebrew","Hiligaynon","Hindi","Hmong","Hungarian","Ibanag","Icelandic","Igbo","Ilocano","Ilonggo","Indian","Indonesian","Inuktitut","Irish","Italian","Jakartanese","Japanese","Javanese","Kanjobal","Kannada","Karen","Kashmiri","Kazakh","Khalkha","Khmer","Kikuyu","Kinyarwanda","Kirundi","Korean","Kosovan","Kotokoli","Krio","Kurdish","Kurmanji","Kyrgyz","Lakota","Laotian","Latin","Latvian","Lingala","Lithuanian","Luganda","Luo","Lusoga","Luxembourgeois","Maay","Macedonian","Malagasy","Malay","Malayalam","Maldivian","Maltese","Mandarin","Mandingo","Mandinka","Maori","Marathi","Marshallese","Mien","Mirpuri","Mixteco","Moldovan","Mongolian","Navajo","Neapolitan","Nepali","Norwegian","Nuer","Nyanja","Ojibaway","Oriya","Oromo","Ossetian","Pahari","Pampangan","Pashto","Patois","Pidgin English","Polish","Portuguese","Pothwari","Pulaar","Punjabi","Putian","Quanxi","Quechua","Romani","Romanian","Romansch","Rundi","Russian","Samoan","Sango","Sanskrit","Serbian","Shanghainese","Shona","Sichuan","Sicilian","Sindhi","Sinhala","Sinhalese","Siswati/Swazi","Slovak","Slovene","Slovenian","Somali","Soninke","Sorani","Sotho","Spanish","Sundanese","Susu","Swahili","Swedish","Sylhetti","Tagalog","Taiwanese","Tajik","Tamil","Telugu","Thai","Tibetan","Tigrinya","Tongan","Tshiluba","Tsonga","Tswana","Turkish","Turkmen","Uighur","Ukrainian","Urdu","Uzbek","Venda","Vietnamese","Visayan","Welsh","Wolof","Xhosa","Yao","Yiddish","Yoruba","Yupik","Zulu"];
 
-var countries = ["Afrikaans","Akan","Albanian","Amharic","Arabic","Armenian","ASL","Assamese","Assyrian","Azerbaijani","Bahdini","Bambara","Bashkir","Basque","Belarusian","Bengali","Bosnian","Bravanese","Bulgarian","Burmese","Cambodian","Cantonese","Catalan","Cebuano","Chaldean","Chamorro","Chaozhou","Chavacano","Chin","Chuukese","Cree","Croatian","Czech","Dakota","Danish","Dari","Dinka","Dioula","Dutch","Dzongkha","English","Estonian","Ewe","Fante","Faroese","Farsi","Fijian Hindi","Finnish","Flemish","French","French Canadian","Frisian","Fujianese","Fukienese","Fula","Fulani","Fuzhou","Ga","Gaelic","Galician","Ganda","Georgian","German","Gorani","Greek","Gujarati","Haitian Creole","Hakka","Hassaniyya","Hausa","Hebrew","Hiligaynon","Hindi","Hmong","Hungarian","Ibanag","Icelandic","Igbo","Ilocano","Ilonggo","Indian","Indonesian","Inuktitut","Irish","Italian","Jakartanese","Japanese","Javanese","Kanjobal","Kannada","Karen","Kashmiri","Kazakh","Khalkha","Khmer","Kikuyu","Kinyarwanda","Kirundi","Korean","Kosovan","Kotokoli","Krio","Kurdish","Kurmanji","Kyrgyz","Lakota","Laotian","Latin","Latvian","Lingala","Lithuanian","Luganda","Luo","Lusoga","Luxembourgeois","Maay","Macedonian","Malagasy","Malay","Malayalam","Maldivian","Maltese","Mandarin","Mandingo","Mandinka","Maori","Marathi","Marshallese","Mien","Mirpuri","Mixteco","Moldovan","Mongolian","Navajo","Neapolitan","Nepali","Norwegian","Nuer","Nyanja","Ojibaway","Oriya","Oromo","Ossetian","Pahari","Pampangan","Pashto","Patois","Pidgin English","Polish","Portuguese","Pothwari","Pulaar","Punjabi","Putian","Quanxi","Quechua","Romani","Romanian","Romansch","Rundi","Russian","Samoan","Sango","Sanskrit","Serbian","Shanghainese","Shona","Sichuan","Sicilian","Sindhi","Sinhala","Sinhalese","Siswati/Swazi","Slovak","Slovene","Slovenian","Somali","Soninke","Sorani","Sotho","Spanish","Sundanese","Susu","Swahili","Swedish","Sylhetti","Tagalog","Taiwanese","Tajik","Tamil","Telugu","Thai","Tibetan","Tigrinya","Tongan","Tshiluba","Tsonga","Tswana","Turkish","Turkmen","Uighur","Ukrainian","Urdu","Uzbek","Venda","Vietnamese","Visayan","Welsh","Wolof","Xhosa","Yao","Yiddish","Yoruba","Yupik","Zulu"];
-
-autocomplete(document.getElementById("myInput"), countries);
-autocomplete(document.getElementById("myInput_learn"), countries);
+autocomplete(document.getElementById("myInput"), allowed_languages);
+autocomplete(document.getElementById("myInput_learn"), allowed_languages);
 </script>
 
 {% endblock content %}

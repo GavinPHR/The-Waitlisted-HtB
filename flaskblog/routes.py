@@ -7,7 +7,7 @@ from flaskblog.forms import RegistrationForm, LoginForm, UpdateAccountForm
 from flaskblog.models import User, Know, Learn, ChatThread, ChatThreadContent
 from flask_login import login_user, current_user, logout_user, login_required
 
-import pytz
+
 
 @app.route("/")
 @app.route("/home")
@@ -228,8 +228,7 @@ def profile(user_id):
     languages = Know.query.filter_by(user_id=user_id).all()
     languages_learn = Learn.query.filter_by(user_id=user_id).all()
 
-    return render_template('profile.html', title='Profile', languages=languages, languages_learn=languages_learn
-                          )
+    return render_template('profile.html', title='Profile', languages=languages, languages_learn=languages_learn)
 
 
 @app.route("/delete_language/<mode>/<user_id>/<language_id>", methods=['GET', 'POST'])
