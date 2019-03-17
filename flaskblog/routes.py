@@ -4,10 +4,10 @@ from PIL import Image
 from flask import render_template, url_for, flash, redirect, request
 from flaskblog import app, db, bcrypt
 from flaskblog.forms import RegistrationForm, LoginForm, UpdateAccountForm
-from flaskblog.models import User, Know, Learn
+from flaskblog.models import User, Know, Learn, ChatThread, ChatThreadContent
 from flask_login import login_user, current_user, logout_user, login_required
 
-import users
+import pytz
 
 @app.route("/")
 @app.route("/home")
@@ -39,9 +39,76 @@ def about():
     return render_template('about.html', title='About')
 
 
-@app.route("/chatroom")
-def chatroom():
-    return render_template('chat.html', title='About', nosidebar=True)
+@app.route("/chatroom/<target_id>", methods=['GET', 'POST']) # TODO : target unique username
+@login_required
+def chatroom(target_id):
+
+    user_id = current_user.id;
+
+    threads = ChatThread.query.filter_by(user1_id=user_id, user2_id=target_id).all()
+    if (len(threads) == 0):
+        threads = ChatThread.query.filter_by(user1_id=target_id, user2_id=user_id).all()
+    if (len(threads) == 0):
+        thread = ChatThread(user1_id=user_id, user2_id=target_id)
+        db.session.add(thread)
+        db.session.commit()
+    if (len(threads) == 1):
+        thread = threads[0];
+
+    if request.method == "POST":
+        try:
+            message = request.form["message"]
+            print(message)
+            db.session.add(ChatThreadContent(sender_id=int(user_id), thread_id=thread.id, content=message))
+            db.session.commit();
+        except:
+            pass
+
+        return redirect(url_for('chatroom', target_id=target_id))
+
+    messages = []
+
+    '''[
+        {
+            "me":   False,
+            "time": "30 mins ago",
+            "form": "Jack Sparrow",
+            "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur bibendum ornare dolor, quis ullamcorper ligula sodales."
+        },
+        {
+            "me":   True,
+            "time": "12 mins ago",
+            "form": "Bhaumik Patel",
+            "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur bibendum ornare dolor, quis ullamcorper ligula sodales."
+        },
+        {
+            "me":   True,
+            "time": "12 mins ago",
+            "form": "Bhaumik Patel",
+            "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur bibendum ornare dolor, quis ullamcorper ligula sodales."
+        },
+        {
+            "me":   True,
+            "time": "12 mins ago",
+            "form": "Bhaumik Patel",
+            "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur bibendum ornare dolor, quis ullamcorper ligula sodales."
+        },
+        {
+            "me":   False,
+            "time": "30 mins ago",
+            "form": "Jack Sparrow",
+            "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur bibendum ornare dolor, quis ullamcorper ligula sodales."
+        },
+    ]'''
+
+    messages = list(ChatThreadContent.query.filter_by(thread_id=thread.id))
+
+    for message in messages:
+        message.me = message.sender_id == int(user_id);
+        message.time = message.post_time[:-7]#.strftime("%Y-%m-%d %H:%M")
+
+
+    return render_template('chat.html', title='Chat', messages=messages, nosidebar=True)
 
 
 @app.route("/register", methods=['GET', 'POST'])
