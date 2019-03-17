@@ -1,0 +1,87 @@
+
+{% extends "layout.html" %}
+{% block content %}
+
+<link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
+
+<script>
+// Refreshes the page every 5th second.
+setTimeout(function(){
+    window.location.reload(1);
+    window.scrollTo(0,document.body.scrollHeight);
+}, 5000);
+</script>
+
+<style>
+.panel-body
+{
+    overflow-y: auto;
+    top: 500px;
+    height: 100%;
+    margin-top: 80px;
+    margin-bottom: 50px;
+}
+
+.form-control
+{ height: 40px; }
+
+.btn
+{ height: 40px; }
+
+</style>
+
+<div class="container">
+<div class="panel-body">
+        <ul class="chat">
+            {% for message in messages %}
+            {% if message.me %}
+            <span class="chat-img pull-left" style="margin-left: -50px">
+                <img src="http://placehold.it/50/FA6F57/fff&text=ME" alt="User Avatar" class="img-circle" />
+            {% else %}
+            <span class="chat-img pull-left" style="margin-left: -50px">
+                <img src="http://placehold.it/50/55C1E7/fff&text=U" alt="User Avatar" class="img-circle" />
+            {% endif %}
+            </span>
+
+            <div class="chat-body clearfix"  style="margin-left: 15px">
+                <div class="header">
+                    {% if message.me %}
+                    <small class="pull-right text-muted"><span class="glyphicon glyphicon-time"></span> {{ message.time }} </small>
+                    <strong class="primary-font">  {{ message.from }} </strong>
+                    {% else %}
+                    <strong class="primary-font"> {{ message.from }} </strong>
+                    <small class="pull-right text-muted"> <span class="glyphicon glyphicon-time"></span> {{ message.time }} </small>
+                    {% endif %}
+                </div>
+                <p>
+                    {{ message.content }}
+                </p>
+            </div>
+            <p></p>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+</div>
+
+<div class="fixed-bottom">
+    <div class="panel-footer">
+         <div class="input-group">
+             <form autocomplete="off" method="POST" action="">
+                 <input id="btn-input" type="text" class="form-control input-sm" name="message" placeholder="Type your message here..." style="width: calc(100% - 50px);">
+                 <span class="input-group-btn">
+                     <input class="btn btn-warning btn-sm" type="submit" value="Send">
+                 </span>
+             </form>
+         </div>
+     </div>
+ </div>
+
+<script>
+    window.scrollTo(0,document.body.scrollHeight);
+</script>
+
+{% endblock content %}

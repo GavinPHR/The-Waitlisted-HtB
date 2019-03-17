@@ -4,40 +4,111 @@ from PIL import Image
 from flask import render_template, url_for, flash, redirect, request
 from flaskblog import app, db, bcrypt
 from flaskblog.forms import RegistrationForm, LoginForm, UpdateAccountForm
-from flaskblog.models import User, Know, Learn
+from flaskblog.models import User, Know, Learn, ChatThread, ChatThreadContent
 from flask_login import login_user, current_user, logout_user, login_required
 
-
-posts = [
-    {
-        'author': 'Corey Schafer',
-        'title': 'Blog Post 1',
-        'content': 'First post content',
-        'date_posted': 'April 20, 2018'
-    },
-    {
-        'author': 'Jane Doe',
-        'title': 'Blog Post 2',
-        'content': 'Second post content',
-        'date_posted': 'April 21, 2018'
-    }
-]
+import pytz
 
 @app.route("/")
 @app.route("/home")
 def home():
-    user = {
-        "status": "waiting",
-        "language_learn": "Esperanto",
-        "language_know": ["Norwegian", "English"]
-    };
+    matches = [
+    {
+        'language': 'English',
+        'name': 'Sophie'
+    },
+    {
+        'language': 'Spanish',
+        'name': 'Aria'
+    }
+    ]
 
-    return render_template('home.html', status=user["status"], user=user)
+    user = {
+        'language_learn': "English",
+        'language_know': ['Norwegian', 'Esperanto']
+    }
+
+    #users.getUsers()
+    if len(matches) == 0:
+        matches = None
+    return render_template('home.html', user=user, matches=matches)
 
 
 @app.route("/about")
 def about():
     return render_template('about.html', title='About')
+
+
+@app.route("/chatroom/<target_id>", methods=['GET', 'POST']) # TODO : target unique username
+@login_required
+def chatroom(target_id):
+
+    user_id = current_user.id;
+
+    threads = ChatThread.query.filter_by(user1_id=user_id, user2_id=target_id).all()
+    if (len(threads) == 0):
+        threads = ChatThread.query.filter_by(user1_id=target_id, user2_id=user_id).all()
+    if (len(threads) == 0):
+        thread = ChatThread(user1_id=user_id, user2_id=target_id)
+        db.session.add(thread)
+        db.session.commit()
+    if (len(threads) == 1):
+        thread = threads[0];
+
+    if request.method == "POST":
+        try:
+            message = request.form["message"]
+            print(message)
+            db.session.add(ChatThreadContent(sender_id=int(user_id), thread_id=thread.id, content=message))
+            db.session.commit();
+        except:
+            pass
+
+        return redirect(url_for('chatroom', target_id=target_id))
+
+    messages = []
+
+    '''[
+        {
+            "me":   False,
+            "time": "30 mins ago",
+            "form": "Jack Sparrow",
+            "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur bibendum ornare dolor, quis ullamcorper ligula sodales."
+        },
+        {
+            "me":   True,
+            "time": "12 mins ago",
+            "form": "Bhaumik Patel",
+            "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur bibendum ornare dolor, quis ullamcorper ligula sodales."
+        },
+        {
+            "me":   True,
+            "time": "12 mins ago",
+            "form": "Bhaumik Patel",
+            "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur bibendum ornare dolor, quis ullamcorper ligula sodales."
+        },
+        {
+            "me":   True,
+            "time": "12 mins ago",
+            "form": "Bhaumik Patel",
+            "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur bibendum ornare dolor, quis ullamcorper ligula sodales."
+        },
+        {
+            "me":   False,
+            "time": "30 mins ago",
+            "form": "Jack Sparrow",
+            "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur bibendum ornare dolor, quis ullamcorper ligula sodales."
+        },
+    ]'''
+
+    messages = list(ChatThreadContent.query.filter_by(thread_id=thread.id))
+
+    for message in messages:
+        message.me = message.sender_id == int(user_id);
+        message.time = message.post_time[:-7]#.strftime("%Y-%m-%d %H:%M")
+
+
+    return render_template('chat.html', title='Chat', messages=messages, nosidebar=True)
 
 
 @app.route("/register", methods=['GET', 'POST'])
@@ -146,11 +217,11 @@ def language(user_id):
                 if check ==0:
                     learn = Learn(language=language_learn, user_id=user_id)
                     db.session.add(learn)
-                    db.session.commit() 
+                    db.session.commit()
                 elif check == 1:
-                    flash('The language has already been chosen', 'danger') 
+                    flash('The language has already been chosen', 'danger')
                 elif check == 2:
-                    flash('You know that language', 'danger')  
+                    flash('You know that language', 'danger')
         except:
             pass
         return redirect(url_for('language', user_id=user_id))
@@ -175,6 +246,7 @@ def delete_language(language_id,mode,user_id):
         db.session.delete(know)
         db.session.commit()
         flash('Delete successfully', 'success')
+
     return redirect(url_for('language', user_id=user_id))
 
 

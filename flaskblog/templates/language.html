@@ -20,18 +20,6 @@
   <input type="submit">
 </form>
 
-<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='searchableTextField.css') }}">
-<script src="{{ url_for('static', filename='searchableTextField.js')}}"></script>
-<script>
-
-var countries = ["Afrikaans","Akan","Albanian","Amharic","Arabic","Armenian","ASL","Assamese","Assyrian","Azerbaijani","Bahdini","Bambara","Bashkir","Basque","Belarusian","Bengali","Bosnian","Bravanese","Bulgarian","Burmese","Cambodian","Cantonese","Catalan","Cebuano","Chaldean","Chamorro","Chaozhou","Chavacano","Chin","Chuukese","Cree","Croatian","Czech","Dakota","Danish","Dari","Dinka","Dioula","Dutch","Dzongkha","English","Estonian","Ewe","Fante","Faroese","Farsi","Fijian Hindi","Finnish","Flemish","French","French Canadian","Frisian","Fujianese","Fukienese","Fula","Fulani","Fuzhou","Ga","Gaelic","Galician","Ganda","Georgian","German","Gorani","Greek","Gujarati","Haitian Creole","Hakka","Hassaniyya","Hausa","Hebrew","Hiligaynon","Hindi","Hmong","Hungarian","Ibanag","Icelandic","Igbo","Ilocano","Ilonggo","Indian","Indonesian","Inuktitut","Irish","Italian","Jakartanese","Japanese","Javanese","Kanjobal","Kannada","Karen","Kashmiri","Kazakh","Khalkha","Khmer","Kikuyu","Kinyarwanda","Kirundi","Korean","Kosovan","Kotokoli","Krio","Kurdish","Kurmanji","Kyrgyz","Lakota","Laotian","Latin","Latvian","Lingala","Lithuanian","Luganda","Luo","Lusoga","Luxembourgeois","Maay","Macedonian","Malagasy","Malay","Malayalam","Maldivian","Maltese","Mandarin","Mandingo","Mandinka","Maori","Marathi","Marshallese","Mien","Mirpuri","Mixteco","Moldovan","Mongolian","Navajo","Neapolitan","Nepali","Norwegian","Nuer","Nyanja","Ojibaway","Oriya","Oromo","Ossetian","Pahari","Pampangan","Pashto","Patois","Pidgin English","Polish","Portuguese","Pothwari","Pulaar","Punjabi","Putian","Quanxi","Quechua","Romani","Romanian","Romansch","Rundi","Russian","Samoan","Sango","Sanskrit","Serbian","Shanghainese","Shona","Sichuan","Sicilian","Sindhi","Sinhala","Sinhalese","Siswati/Swazi","Slovak","Slovene","Slovenian","Somali","Soninke","Sorani","Sotho","Spanish","Sundanese","Susu","Swahili","Swedish","Sylhetti","Tagalog","Taiwanese","Tajik","Tamil","Telugu","Thai","Tibetan","Tigrinya","Tongan","Tshiluba","Tsonga","Tswana","Turkish","Turkmen","Uighur","Ukrainian","Urdu","Uzbek","Venda","Vietnamese","Visayan","Welsh","Wolof","Xhosa","Yao","Yiddish","Yoruba","Yupik","Zulu"];
-
-/*initiate the autocomplete function on the "myInput" element, and pass along the countries array as possible autocomplete values:*/
-autocomplete(document.getElementById("myInput"), countries);
-</script>
-
-
-
 <table class="table table-striped"  style="width:100%">
 		<thead>
     		<tr>
@@ -41,7 +29,7 @@ autocomplete(document.getElementById("myInput"), countries);
 		</thead>
 		<tbody>
 		{% for language in languages%}
-		
+
 		<tr>
 			<td><h4>{{ language.language }}</h4></td>
 			<td>
@@ -49,7 +37,7 @@ autocomplete(document.getElementById("myInput"), countries);
 			</td>
 		</tr>
 		{% endfor %}
-		
+
 		</tbody>
 	</table>
 
@@ -66,17 +54,6 @@ autocomplete(document.getElementById("myInput"), countries);
   <input type="submit">
 </form>
 
-<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='searchableTextField.css') }}">
-<script src="{{ url_for('static', filename='searchableTextField.js')}}"></script>
-<script>
-
-var countries = ["Afrikaans","Akan","Albanian","Amharic","Arabic","Armenian","ASL","Assamese","Assyrian","Azerbaijani","Bahdini","Bambara","Bashkir","Basque","Belarusian","Bengali","Bosnian","Bravanese","Bulgarian","Burmese","Cambodian","Cantonese","Catalan","Cebuano","Chaldean","Chamorro","Chaozhou","Chavacano","Chin","Chuukese","Cree","Croatian","Czech","Dakota","Danish","Dari","Dinka","Dioula","Dutch","Dzongkha","English","Estonian","Ewe","Fante","Faroese","Farsi","Fijian Hindi","Finnish","Flemish","French","French Canadian","Frisian","Fujianese","Fukienese","Fula","Fulani","Fuzhou","Ga","Gaelic","Galician","Ganda","Georgian","German","Gorani","Greek","Gujarati","Haitian Creole","Hakka","Hassaniyya","Hausa","Hebrew","Hiligaynon","Hindi","Hmong","Hungarian","Ibanag","Icelandic","Igbo","Ilocano","Ilonggo","Indian","Indonesian","Inuktitut","Irish","Italian","Jakartanese","Japanese","Javanese","Kanjobal","Kannada","Karen","Kashmiri","Kazakh","Khalkha","Khmer","Kikuyu","Kinyarwanda","Kirundi","Korean","Kosovan","Kotokoli","Krio","Kurdish","Kurmanji","Kyrgyz","Lakota","Laotian","Latin","Latvian","Lingala","Lithuanian","Luganda","Luo","Lusoga","Luxembourgeois","Maay","Macedonian","Malagasy","Malay","Malayalam","Maldivian","Maltese","Mandarin","Mandingo","Mandinka","Maori","Marathi","Marshallese","Mien","Mirpuri","Mixteco","Moldovan","Mongolian","Navajo","Neapolitan","Nepali","Norwegian","Nuer","Nyanja","Ojibaway","Oriya","Oromo","Ossetian","Pahari","Pampangan","Pashto","Patois","Pidgin English","Polish","Portuguese","Pothwari","Pulaar","Punjabi","Putian","Quanxi","Quechua","Romani","Romanian","Romansch","Rundi","Russian","Samoan","Sango","Sanskrit","Serbian","Shanghainese","Shona","Sichuan","Sicilian","Sindhi","Sinhala","Sinhalese","Siswati/Swazi","Slovak","Slovene","Slovenian","Somali","Soninke","Sorani","Sotho","Spanish","Sundanese","Susu","Swahili","Swedish","Sylhetti","Tagalog","Taiwanese","Tajik","Tamil","Telugu","Thai","Tibetan","Tigrinya","Tongan","Tshiluba","Tsonga","Tswana","Turkish","Turkmen","Uighur","Ukrainian","Urdu","Uzbek","Venda","Vietnamese","Visayan","Welsh","Wolof","Xhosa","Yao","Yiddish","Yoruba","Yupik","Zulu"];
-
-/*initiate the autocomplete function on the "myInput" element, and pass along the countries array as possible autocomplete values:*/
-autocomplete(document.getElementById("myInput_learn"), countries);
-</script>
-
-
 <table class="table table-striped"  style="width:100%">
 		<thead>
     		<tr>
@@ -86,7 +63,7 @@ autocomplete(document.getElementById("myInput_learn"), countries);
 		</thead>
 		<tbody>
 		{% for language in languages_learn%}
-		
+
 		<tr>
 			<td><h4>{{ language.language }}</h4></td>
 			<td>
@@ -94,7 +71,7 @@ autocomplete(document.getElementById("myInput_learn"), countries);
 			</td>
 		</tr>
 		{% endfor %}
-		
+
 		</tbody>
 	</table>
 
@@ -140,5 +117,15 @@ autocomplete(document.getElementById("myInput_learn"), countries);
 	  </div>
 	  	{% endfor %}
 
+
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='searchableTextField.css') }}">
+<script src="{{ url_for('static', filename='searchableTextField.js')}}"></script>
+<script>
+
+var countries = ["Afrikaans","Akan","Albanian","Amharic","Arabic","Armenian","ASL","Assamese","Assyrian","Azerbaijani","Bahdini","Bambara","Bashkir","Basque","Belarusian","Bengali","Bosnian","Bravanese","Bulgarian","Burmese","Cambodian","Cantonese","Catalan","Cebuano","Chaldean","Chamorro","Chaozhou","Chavacano","Chin","Chuukese","Cree","Croatian","Czech","Dakota","Danish","Dari","Dinka","Dioula","Dutch","Dzongkha","English","Estonian","Ewe","Fante","Faroese","Farsi","Fijian Hindi","Finnish","Flemish","French","French Canadian","Frisian","Fujianese","Fukienese","Fula","Fulani","Fuzhou","Ga","Gaelic","Galician","Ganda","Georgian","German","Gorani","Greek","Gujarati","Haitian Creole","Hakka","Hassaniyya","Hausa","Hebrew","Hiligaynon","Hindi","Hmong","Hungarian","Ibanag","Icelandic","Igbo","Ilocano","Ilonggo","Indian","Indonesian","Inuktitut","Irish","Italian","Jakartanese","Japanese","Javanese","Kanjobal","Kannada","Karen","Kashmiri","Kazakh","Khalkha","Khmer","Kikuyu","Kinyarwanda","Kirundi","Korean","Kosovan","Kotokoli","Krio","Kurdish","Kurmanji","Kyrgyz","Lakota","Laotian","Latin","Latvian","Lingala","Lithuanian","Luganda","Luo","Lusoga","Luxembourgeois","Maay","Macedonian","Malagasy","Malay","Malayalam","Maldivian","Maltese","Mandarin","Mandingo","Mandinka","Maori","Marathi","Marshallese","Mien","Mirpuri","Mixteco","Moldovan","Mongolian","Navajo","Neapolitan","Nepali","Norwegian","Nuer","Nyanja","Ojibaway","Oriya","Oromo","Ossetian","Pahari","Pampangan","Pashto","Patois","Pidgin English","Polish","Portuguese","Pothwari","Pulaar","Punjabi","Putian","Quanxi","Quechua","Romani","Romanian","Romansch","Rundi","Russian","Samoan","Sango","Sanskrit","Serbian","Shanghainese","Shona","Sichuan","Sicilian","Sindhi","Sinhala","Sinhalese","Siswati/Swazi","Slovak","Slovene","Slovenian","Somali","Soninke","Sorani","Sotho","Spanish","Sundanese","Susu","Swahili","Swedish","Sylhetti","Tagalog","Taiwanese","Tajik","Tamil","Telugu","Thai","Tibetan","Tigrinya","Tongan","Tshiluba","Tsonga","Tswana","Turkish","Turkmen","Uighur","Ukrainian","Urdu","Uzbek","Venda","Vietnamese","Visayan","Welsh","Wolof","Xhosa","Yao","Yiddish","Yoruba","Yupik","Zulu"];
+
+autocomplete(document.getElementById("myInput"), countries);
+autocomplete(document.getElementById("myInput_learn"), countries);
+</script>
 
 {% endblock content %}

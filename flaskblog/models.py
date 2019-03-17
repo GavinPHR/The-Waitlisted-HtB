@@ -2,6 +2,7 @@ from datetime import datetime
 from flaskblog import db, login_manager
 from flask_login import UserMixin
 
+from datetime import datetime
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -18,6 +19,7 @@ class User(db.Model, UserMixin):
     language_learn = db.relationship('Learn', backref='author', lazy=True)
     match = db.Column(db.String(1), nullable=False, default='0')
 
+
     def __repr__(self):
         return f"User('{self.username}', '{self.email}', '{self.image_file}')"
 
@@ -31,5 +33,14 @@ class Learn(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     language = db.Column(db.String(10), nullable=False)
 
+class ChatThread(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user1_id = db.Column(db.Integer, nullable=False)
+    user2_id = db.Column(db.Integer, nullable=False)
 
-
+class ChatThreadContent(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    thread_id = db.Column(db.Integer, nullable=False)
+    post_time = db.Column(db.Integer, nullable=False, default=datetime.utcnow)
+    sender_id = db.Column(db.Integer, nullable=False)
+    content = db.Column(db.String(200), nullable=False)
