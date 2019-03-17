@@ -18,20 +18,6 @@ def root():
 @app.route("/home")
 @login_required
 def home():
-    '''matches = [
-    {
-        'language': 'English',
-        'user': {
-            'username': 'Sophie'
-        }
-    },
-    {
-        'language': 'Spanish',
-        'user': {
-            'username': 'Aria'
-        }
-    } ]'''
-
     matches = [ {
         'language': match.language,
         'user': User.query.get(match.user2_id)
