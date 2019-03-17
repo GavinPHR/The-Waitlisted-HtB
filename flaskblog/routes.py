@@ -156,8 +156,9 @@ def language(user_id):
         return redirect(url_for('language', user_id=user_id))
     languages = Know.query.filter_by(user_id=user_id).all()
     languages_learn = Learn.query.filter_by(user_id=user_id).all()
+    user = User.query
 
-    return render_template('language.html', title='language', languages=languages, languages_learn=languages_learn
+    return render_template('language.html', title='language', languages=languages, languages_learn=languages_learn, user_id=user_id, user=user
                           )
 
 
@@ -174,4 +175,21 @@ def delete_language(language_id,mode,user_id):
         db.session.delete(know)
         db.session.commit()
         flash('Delete successfully', 'success')
+    return redirect(url_for('language', user_id=user_id))
+
+
+@app.route("/start_match/<user_id>", methods=['GET', 'POST'])
+@login_required
+def start_match(user_id):
+    user = User.query.get_or_404(user_id)
+    user.match = '1'
+    db.session.commit()
+    return redirect(url_for('language', user_id=user_id))
+
+@app.route("/stop_match/<user_id>", methods=['GET', 'POST'])
+@login_required
+def stop_match(user_id):
+    user = User.query.get_or_404(user_id)
+    user.match = '0'
+    db.session.commit()
     return redirect(url_for('language', user_id=user_id))
