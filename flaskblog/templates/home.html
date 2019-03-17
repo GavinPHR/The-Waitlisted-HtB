@@ -6,13 +6,20 @@
   <article class="media content-section">
     <div class="media-body">
       <h2>Match for {{ match.language }}</h2>
-      <h5>{{ match.user.username }}</h5>
+      <!-- <h5>{{ match.user.username }}</h5> --> 
       <p class="article-content"> </p>
       <form action="{{ url_for('chatroom', target_id=match.user.id) }}" method="GET">
         <input class="btn btn-danger" type="submit" value="Send Messages">
       </form>
       <!-- -->
     </div>
+    <div class="media">
+         <img class="rounded-circle account-img" src="{{  url_for('static', filename='profile_pics/' + match.user.image_file) }}">
+         <div class="media-body">
+           <h2 class="account-heading">{{ match.user.username }}</h2>
+           <p class="text-secondary">{{ match.user.email }}</p>
+         </div>
+       </div>
   </article>
   {% endfor %}
 {% elif user.language_learn|length > 0 %}
