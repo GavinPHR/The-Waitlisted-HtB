@@ -1,6 +1,6 @@
 # The-Waitlisted-HtB
 
-
+## A web application to match language exchange partners
 
 
 ![alt text](https://github.com/GavinPHR/The-Waitlisted-HtB/blob/master/Lingva%20screenshot2.png)
