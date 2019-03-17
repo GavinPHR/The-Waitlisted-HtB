@@ -7,8 +7,6 @@ from flaskblog.forms import RegistrationForm, LoginForm, UpdateAccountForm
 from flaskblog.models import User, Know, Learn, ChatThread, ChatThreadContent, Matches
 from flask_login import login_user, current_user, logout_user, login_required
 
-import users
-
 @app.route("/")
 def root():
     if current_user.is_authenticated:
@@ -66,39 +64,6 @@ def chatroom(target_id):
         return redirect(url_for('chatroom', target_id=target_id))
 
     messages = []
-
-    '''[
-        {
-            "me":   False,
-            "time": "30 mins ago",
-            "form": "Jack Sparrow",
-            "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur bibendum ornare dolor, quis ullamcorper ligula sodales."
-        },
-        {
-            "me":   True,
-            "time": "12 mins ago",
-            "form": "Bhaumik Patel",
-            "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur bibendum ornare dolor, quis ullamcorper ligula sodales."
-        },
-        {
-            "me":   True,
-            "time": "12 mins ago",
-            "form": "Bhaumik Patel",
-            "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur bibendum ornare dolor, quis ullamcorper ligula sodales."
-        },
-        {
-            "me":   True,
-            "time": "12 mins ago",
-            "form": "Bhaumik Patel",
-            "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur bibendum ornare dolor, quis ullamcorper ligula sodales."
-        },
-        {
-            "me":   False,
-            "time": "30 mins ago",
-            "form": "Jack Sparrow",
-            "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur bibendum ornare dolor, quis ullamcorper ligula sodales."
-        },
-    ]'''
 
     messages = list(ChatThreadContent.query.filter_by(thread_id=thread.id))
 
@@ -254,7 +219,6 @@ def start_match(user_id):
     user = User.query.get_or_404(user_id)
     user.match = '1'
     db.session.commit()
-    triggerMatching()
     return redirect(url_for('profile', user_id=user_id))
 
 @app.route("/stop_match/<user_id>", methods=['GET', 'POST'])
